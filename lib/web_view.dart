@@ -33,6 +33,7 @@ class _WebViewExampleState extends State<WebViewExample> {
     );
   }
 
+
   Future<void> requestAccessToken(String code, String codeVerifier) async {
     var headers = {
       'Authorization': 'Basic d2ViOnF3ZXJxd2Vy',
@@ -74,27 +75,31 @@ class _WebViewExampleState extends State<WebViewExample> {
   void onPageFinished(String url) async {
     print("Page finished loading: $url");
 
-    try {
-      Uri uri = Uri.parse(url);
-      String code = uri.queryParameters['code'] ?? '';
-
-      if (code.isNotEmpty) {
-        print("Authorization Code: $code");
-
-        // Use the authorization code to request an access token
-        await requestAccessToken(code, widget.pkcePair.codeVerifier);
-
-        // Perform any other actions with the access token or user information
-      } else {
-        print("Error: Authorization code not found in the URL");
-      }
-    } catch (e) {
-      print("Error: ${e.toString()}");
-    }
+    // try {
+    //   Uri uri = Uri.parse(url);
+    //   String code = uri.queryParameters['code'] ?? '';
+    //
+    //   if (code.isNotEmpty) {
+    //     print("Authorization Code: $code");
+    //
+    //     // Use the authorization code to request an access token
+    //     await requestAccessToken(code, widget.pkcePair.codeVerifier);
+    //
+    //     // Perform any other actions with the access token or user information
+    //   } else {
+    //     print("Error: Authorization code not found in the URL");
+    //   }
+    // } catch (e) {
+    //   print("Error: ${e.toString()}");
+    // }
 
     // Check if the current URL is the return URL you expect after login
     if (url.startsWith('http://127.0.0.1:9090/login/oauth2/code')) {
-      webViewController.clearCache();
+      Uri uri = Uri.parse(url);
+      String code = uri.queryParameters['code'] ?? '';
+      requestAccessToken(code, widget.pkcePair.codeVerifier);
+
+      // webViewController.clearCache();
       Navigator.pop(context);
     }
   }
