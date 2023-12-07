@@ -38,21 +38,19 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
   Future<void> _incrementCounter() async {
-
     final pkcePair = PkcePair.generate();
     print('code verifier ${pkcePair.codeVerifier}');
     print('code challenge ${pkcePair.codeChallenge}');
 
-    // final Uri url = Uri.parse('http://139.59.252.233:8080/oauth2/authorize?client_id=web&response_type=code&scope=openid email profile offline_access&code_challenge=${pkcePair.codeChallenge}&code_challenge_method=S256&redirect_uri=http://127.0.0.1:9090/login/oauth2/code/web');
-    // if (!await launchUrl(url)) {
-    // throw Exception('Could not launch $url');
-    // }
+    String _currentUrl =
+        "http://139.59.252.233:8080/oauth2/authorize?client_id=web&response_type=code&scope=openid email profile offline_access&code_challenge=${pkcePair.codeChallenge}&code_challenge_method=S256&redirect_uri=http://127.0.0.1:9090/login/oauth2/code/web";
 
-    String _currentUrl = "http://139.59.252.233:8080/oauth2/authorize?client_id=web&response_type=code&scope=openid email profile offline_access&code_challenge=${pkcePair.codeChallenge}&code_challenge_method=S256&redirect_uri=http://127.0.0.1:9090/login/oauth2/code/web";
-    // String _currentUrl = "https://istad.co/";
+    // Pass pkcePair to the WebViewExample constructor
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => WebViewExample(_currentUrl)),
+      MaterialPageRoute(
+        builder: (context) => WebViewExample(_currentUrl, pkcePair),
+      ),
     );
 
     setState(() {
